@@ -259,6 +259,14 @@ python scripts/model_comparison.py \
 - 置信度分布
 - 错误分析
 
+## 求解器入口
+
+```bash
+python homework-solver.py <输入文件> <输出目录> [--compile] [--course "Math 1A"] [--student "Name"]
+```
+
+`homework-solver.py` 是 C4C「作业自动求解与排版」求解器交付物的命令行主入口，内部等价于调用 `scripts/pipeline.py`。
+
 ## 目录结构
 
 ```
