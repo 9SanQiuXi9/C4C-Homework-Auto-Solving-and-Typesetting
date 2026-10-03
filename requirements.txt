@@ -1,0 +1,13 @@
+# C4C Homework Solver - Python Dependencies
+
+# Required
+sympy>=1.12        # Symbolic mathematics
+pyyaml>=6.0        # YAML parsing
+
+# Optional (for advanced features)
+pdfplumber>=0.10.0 # PDF ingestion
+python-docx>=1.0.0 # Word document ingestion
+Pillow>=10.0.0     # Image processing
+
+# Installation:
+# pip install -r requirements.txt --break-system-packages

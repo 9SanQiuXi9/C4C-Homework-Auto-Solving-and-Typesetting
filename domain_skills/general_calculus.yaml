@@ -1,0 +1,125 @@
+# ============================================================
+# T-box: General Calculus — Limits, Derivatives, Integration
+# ============================================================
+# Extends calculus_limits.yaml with integration and series concepts.
+# Oracle sources:
+#   - Stewart, Calculus: Early Transcendentals, Ch. 5-7 (Integration)
+#   - SymPy Cheatsheet (computational reference)
+# ============================================================
+
+domain: general_calculus
+version: "1.0"
+
+oracle_sources:
+  - type: textbook
+    ref: "Stewart, Calculus: Early Transcendentals, Ch. 2-7"
+    authority: primary
+  - type: computational_reference
+    ref: "SymPy Cheatsheet — symbolic computation patterns for calculus"
+    authority: secondary
+  - type: exemplar
+    ref: "Berkeley Math 1A, Worksheets 3-4 (limits, tangent lines)"
+    authority: secondary
+  - type: exemplar
+    ref: "SIAS C4C Challenge Problems (integration, optimization, series)"
+    authority: secondary
+
+# ============================================================
+# CONCEPTS (extended from calculus_limits)
+# ============================================================
+
+concepts:
+
+  # ──── Integration concepts ────
+
+  - id: definite_integral
+    type: concept
+    name: "Definite integral"
+    formal: "\\int_a^b f(x)\\,dx = F(b) - F(a) where F' = f"
+    prerequisites: [limit_definition]
+    keywords: [integrate, integral, area, disk method, volume, rotation]
+
+  - id: indefinite_integral
+    type: concept
+    name: "Indefinite integral (antiderivative)"
+    formal: "\\int f(x)\\,dx = F(x) + C where F'(x) = f(x)"
+    prerequisites: []
+    keywords: [antiderivative, indefinite integral]
+
+  - id: disk_method
+    type: solution_method
+    name: "Volume by disk method"
+    formal: "V = \\pi \\int_a^b [f(x)]^2\\,dx for rotation around x-axis"
+    prerequisites: [definite_integral]
+    keywords: [rotate, revolution, disk, volume of revolution]
+
+  # ──── Series concepts ────
+
+  - id: infinite_series_limit
+    type: concept
+    name: "Series as limit of partial sums"
+    formal: "\\sum_{n=1}^{\\infty} a_n = \\lim_{N\\to\\infty} \\sum_{n=1}^{N} a_n"
+    prerequisites: [limit_definition]
+    keywords: [series, sum, partial sum, converges, diverges]
+
+  - id: polygon_limit
+    type: concept
+    name: "Limit of inscribed polygon areas"
+    formal: "\\lim_{n\\to\\infty} A_n = \\pi r^2 (area of circle)"
+    prerequisites: [limit_definition]
+    keywords: [polygon, inscribed, n-gon, circle area]
+
+# ============================================================
+# SOLUTION METHODS (new)
+# ============================================================
+
+solution_methods:
+
+  - id: integral_computation
+    type: solution_method
+    concept: definite_integral
+    name: "Definite integral via SymPy"
+    applies_when: "Problem requires computing a definite or indefinite integral"
+    tool: sympy
+    input_schema:
+      integrand: "f(x) expression"
+      variable: "x"
+      bounds: "[a, b] or null for indefinite"
+    output_form: "number or expression"
+
+  - id: series_limit_computation
+    type: solution_method
+    concept: infinite_series_limit
+    name: "Series limit via SymPy"
+    applies_when: "Problem asks for lim of a sequence expressible as series"
+    tool: sympy
+    input_schema:
+      expression: "sequence term or partial sum"
+      variable: "n"
+      point: "infinity"
+    output_form: "number or expression"
+
+# ============================================================
+# CLASSIFICATION RULES (extended)
+# ============================================================
+
+classification_rules:
+
+  - priority: 72
+    pattern:
+      text_contains: ["integrate", "integral", "volume", "disk method", "rotation"]
+    maps_to: definite_integral
+    solver: integral_computation
+
+  - priority: 68
+    pattern:
+      text_contains: ["series", "sum", "partial sum"]
+      has_limit_expression: false
+    maps_to: infinite_series_limit
+    solver: series_limit_computation
+
+  - priority: 66
+    pattern:
+      text_contains: ["polygon", "inscribed", "n-gon"]
+    maps_to: polygon_limit
+    solver: series_limit_computation
